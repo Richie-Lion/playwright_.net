@@ -1,40 +1,32 @@
 pipeline {
     agent any
- 
-    tools {
-        maven 'Maven3'
-    }
- 
+
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-    
+
         stage('Build & Test') {
-    steps {
-        bat 'dotnet restore'
-        bat 'dotnet build'
-        bat 'pwsh bin\\Debug\\net8.0\\playwright.ps1 install'
-        bat 'dotnet test'
+            steps {
+                bat 'dotnet restore'
+                bat 'dotnet build'
+
+                bat 'pwsh bin\\Debug\\net8.0\\playwright.ps1 install'
+
+                bat 'dotnet test'
+            }
+        }
     }
-}
- 
+
     post {
         always {
-            junit 'target/surefire-reports/TEST-*.xml'
- 
-            archiveArtifacts artifacts: 'target/surefire-reports/**', allowEmptyArchive: true
- 
-            publishHTML(target: [
-                reportDir: 'target/surefire-reports',
-                reportFiles: 'index.html',
-                reportName: 'TestNG HTML Report',
-                keepAll: true,
-                alwaysLinkToLastBuild: true,
-                allowMissing: true
-            ])
+            // .NET does not generate surefire reports by default
+            // Remove JUnit unless you explicitly generate TRX/JUnit XML
+
+            archiveArtifacts artifacts: '**/bin/**/TestResults/*.xml', allowEmptyArchive: true
         }
     }
 }
