@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PLAYWRIGHT_BROWSERS_PATH = '0'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -9,19 +13,24 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+        stage('Build') {
             steps {
-               bat 'dotnet test'
+                bat 'dotnet restore'
+                bat 'dotnet build'
             }
         }
-    }
 
-    post {
-        always {
-            // .NET does not generate surefire reports by default
-            // Remove JUnit unless you explicitly generate TRX/JUnit XML
+        stage('Install Browsers') {
+            steps {
+                bat 'dotnet tool install --global Microsoft.Playwright.CLI'
+                bat 'playwright install'
+            }
+        }
 
-            archiveArtifacts artifacts: '**/bin/**/TestResults/*.xml', allowEmptyArchive: true
+        stage('Test') {
+            steps {
+                bat 'dotnet test'
+            }
         }
     }
 }
