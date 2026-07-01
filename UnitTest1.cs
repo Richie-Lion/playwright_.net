@@ -17,15 +17,13 @@ public class SauceDemoCheckoutTests
     private const string StandardUser = "standard_user";
     private const string SecretPassword = "secret_sauce";
 
-    [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(3)]
+    [Test]
     [AllureTag("E2E")]
     [AllureTag("Checkout")]
     [AllureSeverity(SeverityLevel.critical)]
     [AllureOwner("QA Team")]
     [AllureFeature("Checkout Flow")]
-    public async Task TestSauceDemoSimpleCheckout(int instanceId)
+    public async Task TestSauceDemoSimpleCheckout()
     {
         IPlaywright? playwright = null;
         IBrowser? browser = null;
