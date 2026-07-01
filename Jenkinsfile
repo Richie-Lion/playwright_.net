@@ -14,7 +14,9 @@ pipeline {
  
         stage('Build & Test') {
             steps {
-                bat 'mvn clean test'
+                bat 'dotnet restore'
+                bat 'dotnet build'
+                bat 'dotnet test'
             }
         }
     }
