@@ -14,7 +14,7 @@ pipeline {
                 bat 'dotnet restore'
                 bat 'dotnet build'
 
-                bat 'pwsh bin\\Debug\\net8.0\\playwright.ps1 install'
+                bat 'powershell bin\\Debug\\net8.0\\playwright.ps1 install'
 
                 bat 'dotnet test'
             }
