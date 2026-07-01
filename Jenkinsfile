@@ -11,15 +11,15 @@ pipeline {
                 checkout scm
             }
         }
- 
+    
         stage('Build & Test') {
-            steps {
-                bat 'dotnet restore'
-                bat 'dotnet build'
-                bat 'dotnet test'
-            }
-        }
+    steps {
+        bat 'dotnet restore'
+        bat 'dotnet build'
+        bat 'pwsh bin\\Debug\\net8.0\\playwright.ps1 install'
+        bat 'dotnet test'
     }
+}
  
     post {
         always {
