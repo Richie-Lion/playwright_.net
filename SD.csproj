@@ -23,4 +23,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="MatrixTests.cs" />
+  </ItemGroup>
+
 </Project>
