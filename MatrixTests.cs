@@ -12,7 +12,7 @@ namespace SauceDemoTests;
 [TestFixture("firefox", TestName = "MatrixTests.Firefox")]
 [TestFixture("webkit", TestName = "MatrixTests.Webkit")]
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
-[Parallelizable(ParallelScope.All)]
+[Parallelizable(ParallelScope.Fixtures)]
 public class MatrixTests
 {
     private const string BaseUrl = "https://www.saucedemo.com/";
