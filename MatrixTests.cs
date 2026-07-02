@@ -11,6 +11,7 @@ namespace SauceDemoTests;
 [TestFixture("chromium", TestName = "MatrixTests.Chromium")]
 [TestFixture("firefox", TestName = "MatrixTests.Firefox")]
 [TestFixture("webkit", TestName = "MatrixTests.Webkit")]
+[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 [Parallelizable(ParallelScope.All)]
 public class MatrixTests
 {
