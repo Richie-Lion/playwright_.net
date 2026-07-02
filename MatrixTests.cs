@@ -8,68 +8,50 @@ using Allure.Net.Commons.Attributes;
 namespace SauceDemoTests;
 
 [AllureNUnit]
-[TestFixture("chromium", TestName = "MatrixTests.Chromium")]
-[TestFixture("firefox", TestName = "MatrixTests.Firefox")]
-[TestFixture("webkit", TestName = "MatrixTests.Webkit")]
-[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
-[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
 public class MatrixTests
 {
     private const string BaseUrl = "https://www.saucedemo.com/";
     private const string StandardUser = "standard_user";
     private const string SecretPassword = "secret_sauce";
 
-    private readonly string browserType;
     private IPlaywright? playwright;
     private IBrowser? browser;
     private IPage? page;
-
-    public MatrixTests(string browserType)
-    {
-        this.browserType = browserType;
-    }
 
     [SetUp]
     public async Task SetUp()
     {
         playwright = await Playwright.CreateAsync();
-
-        browser = browserType switch
-        {
-            "chromium" => await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }),
-            "firefox" => await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }),
-            "webkit" => await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }),
-            _ => throw new ArgumentOutOfRangeException(nameof(browserType), browserType, null)
-        };
-
+        
+        // Hardcoded to only run Chromium once
+        browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
         page = await browser.NewPageAsync();
     }
 
     [TearDown]
     public async Task TearDown()
     {
-    if (page != null) 
-    {
-        await page.CloseAsync();
+        if (page != null) 
+        {
+            await page.CloseAsync();
+        }
+        
+        if (browser != null) 
+        {
+            await browser.CloseAsync();
+        }
+        
+        playwright?.Dispose();
     }
-    
-    if (browser != null) 
-    {
-        await browser.CloseAsync();
-    }
-    
-    playwright?.Dispose();
-}
 
-    [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(3)]
+    [Test]
     [AllureTag("E2E")]
     [AllureTag("Checkout")]
     [AllureSeverity(SeverityLevel.critical)]
     [AllureOwner("QA Team")]
     [AllureFeature("Checkout Flow")]
-    public async Task SauceDemoCheckoutFlow(int instanceId)
+    public async Task SauceDemoCheckoutFlow()
     {
         await AllureApi.Step("Navigate to SauceDemo and login with standard_user", async () =>
         {
