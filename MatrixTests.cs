@@ -35,10 +35,10 @@ public class MatrixTests
 
         browser = browserType switch
         {
-            "chromium" => await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false }),
-            "firefox" => await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false }),
-            "webkit" => await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false }),
-            _ => throw new ArgumentOutOfRangeException(nameof(browserType), browserType, "Unsupported browser type")
+            "chromium" => await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }),
+            "firefox" => await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }),
+            "webkit" => await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true }),
+            _ => throw new ArgumentOutOfRangeException(nameof(browserType), browserType, null)
         };
 
         page = await browser.NewPageAsync();
