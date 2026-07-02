@@ -29,6 +29,7 @@ pipeline {
 
         stage('Test') {
             steps {
+                bat 'if exist bin\\Debug\\net8.0\\allure-results rmdir /s /q bin\\Debug\\net8.0\\allure-results'
                 bat 'dotnet test'
             }
         }
