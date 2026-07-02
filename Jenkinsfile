@@ -35,7 +35,7 @@ pipeline {
     }
     post {
         always {
-            allure results: [[path: 'allure-results']]
+            allure results: [[path: 'bin/Debug/net8.0/allure-results']]
         }
     }
 }
