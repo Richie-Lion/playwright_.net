@@ -48,18 +48,18 @@ public class MatrixTests
     [TearDown]
     public async Task TearDown()
     {
-        if (page != null)
-        {
-            await page.CloseAsync();
-        }
-
-        if (browser != null)
-        {
-            await browser.CloseAsync();
-        }
-
-        playwright?.Dispose();
+    if (page != null) 
+    {
+        await page.CloseAsync();
     }
+    
+    if (browser != null) 
+    {
+        await browser.CloseAsync();
+    }
+    
+    playwright?.Dispose();
+}
 
     [TestCase(1)]
     [TestCase(2)]
